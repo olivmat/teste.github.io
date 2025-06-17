@@ -1,0 +1,86 @@
+<h2 mat-dialog-title class="modal-title-centered">
+  <span class="emoji">📝</span>
+Cadastro de Criança</h2>
+<button mat-icon-button class="close-btn" (click)="onCancel()">
+  <mat-icon>close</mat-icon>
+</button>
+<form [formGroup]="personForm" (ngSubmit)="onSubmit()" class="form-container form-grid">
+  <div class="foto-container">
+    <div class="avatar-preview">
+      <img *ngIf="fotoPreview" [src]="fotoPreview" alt="Prévia da Foto" class="foto-avatar" />
+      <span *ngIf="!fotoPreview" class="foto-avatar" style="display: flex; align-items: center; justify-content: center; font-size: 36px;">👶</span>
+      <button *ngIf="fotoPreview" mat-icon-button class="remove-foto-btn" (click)="removeFoto()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="foto-upload-container">
+      <input type="file" accept="image/*" (change)="onFotoChange($event)" style="display: none;" #fileInput />
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        <mat-icon>add_photo_alternate</mat-icon>
+        Escolher Foto
+      </button>
+    </div>
+  </div>
+  <div class="form-fields">
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Data de Nascimento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birth_date" required />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Banheiro Sozinho</mat-label>
+      <mat-select formControlName="banheiro_sozinho" required>
+        <mat-option [value]="true">Sim</mat-option>
+        <mat-option [value]="false">Não</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Alguma Alergia</mat-label>
+      <mat-select formControlName="alguma_alergia" required>
+        <mat-option [value]="true">Sim</mat-option>
+        <mat-option [value]="false">Não</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Alergia</mat-label>
+      <input matInput formControlName="alergia" [required]="personForm.get('alguma_alergia')?.value === true" />
+      <mat-error *ngIf="personForm.get('alergia')?.hasError('required') && personForm.get('alguma_alergia')?.value === true">
+        Informe a alergia
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Responsável</mat-label>
+      <input matInput formControlName="responsavel" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Grau de Parentesco</mat-label>
+      <mat-select formControlName="grau_parentesco" required>
+        <mat-option value="Pai">Pai</mat-option>
+        <mat-option value="Mãe">Mãe</mat-option>
+        <mat-option value="Irmão">Irmão</mat-option>
+        <mat-option value="Irmã">Irmã</mat-option>
+        <mat-option value="Tio">Tio</mat-option>
+        <mat-option value="Tia">Tia</mat-option>
+        <mat-option value="Avô">Avô</mat-option>
+        <mat-option value="Avó">Avó</mat-option>
+        <mat-option value="Outro">Outro</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Sexo</mat-label>
+      <mat-select formControlName="sexo" required>
+        <mat-option value="Masculino">Masculino</mat-option>
+        <mat-option value="Feminino">Feminino</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="modal-actions">
+    <button mat-raised-button color="primary" type="submit" [disabled]="personForm.invalid">Salvar</button>
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+  </div>
+</form> 

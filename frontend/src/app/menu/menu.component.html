@@ -1,0 +1,25 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" opened class="sidenav">
+    <div class="sidenav-header">
+      <img src="assets/logo-kids.png" alt="Logo Kids" class="logo-img" />
+      <span class="logo">CONTROLE DE CRIANÇAS</span>
+    </div>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">
+        <span style="font-size: 18px; margin-right: 8px;">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/cadastro">
+        <span style="font-size: 18px; margin-right: 8px;">😃</span>
+        <span>Crianças Cadastradas</span>
+      </a>
+      <a mat-list-item routerLink="/presenca">
+        <span style="font-size: 18px; margin-right: 8px;">📝</span>
+        <span>Presenças</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container> 

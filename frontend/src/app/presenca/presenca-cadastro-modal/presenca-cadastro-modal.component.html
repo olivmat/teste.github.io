@@ -1,0 +1,67 @@
+<h2 mat-dialog-title class="modal-title-centered"><span class="emoji">👶</span> Registrar Presença</h2>
+<mat-dialog-content>
+  <div class="filtros-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Data</mat-label>
+      <input matInput [value]="today | date:'dd/MM/yyyy'" [readonly]="true">
+    </mat-form-field>
+    <input
+      type="text"
+      placeholder="Buscar pelo nome da criança"
+      [(ngModel)]="buscaNome"
+      (ngModelChange)="filtrarPessoas()"
+      class="caixa-busca"
+    />
+  </div>
+  <form [formGroup]="presencaForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="caixa-vazia">
+      <div class="table-container">
+        <table *ngIf="pessoasFiltradas.length > 0" class="tabela-cadastro-crianca">
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>Responsável</th>
+              <th>Nº Pulseira</th>
+              <th>Banheiro Sozinho</th>
+              <th>Alguma Alergia</th>
+              <th>Alergia</th>
+              <th>Selecionar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pessoa of pessoasFiltradas" [class.selected]="pessoaSelecionada && pessoaSelecionada.id === pessoa.id">
+              <td>
+                <img *ngIf="pessoa.foto && (pessoa.foto.startsWith('http') || pessoa.foto.startsWith('/uploads/'))" [src]="pessoa.foto" alt="Foto" class="foto-avatar" />
+                <span *ngIf="!pessoa.foto || pessoa.foto === '-' || (!pessoa.foto.startsWith('http') && !pessoa.foto.startsWith('/uploads/'))" class="foto-avatar">
+                  {{ pessoa.sexo === 'Masculino' ? '👦' : (pessoa.sexo === 'Feminino' ? '👧' : '👶') }}
+                </span>
+              </td>
+              <td>{{ pessoa.name }}</td>
+              <td>{{ pessoa.responsavel }}</td>
+              <td>{{ pessoa.pulseira_numero }}</td>
+              <td>{{ pessoa.banheiro_sozinho ? 'Sim' : 'Não' }}</td>
+              <td>{{ pessoa.alguma_alergia ? 'Sim' : 'Não' }}</td>
+              <td>{{ pessoa.alergia }}</td>
+              <td>
+                <button mat-button color="primary" type="button" (click)="selecionarPessoa(pessoa)">Selecionar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="showErrorModal" class="error-modal">
+    <div class="error-modal-content">
+      <p>{{ errorMessage }}</p>
+      <button (click)="closeErrorModal()">Fechar</button>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!presencaForm.valid || !pessoaSelecionada" (click)="onSubmit()">
+    Registrar
+  </button>
+</mat-dialog-actions> 

@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="header">
+    <h1>Crianças Cadastradas</h1>
+  </div>
+
+  <mat-form-field appearance="outline" class="busca-fina" style="width: 100%; margin-bottom: 1px;">
+    <mat-label>Buscar pelo nome da criança</mat-label>
+    <input matInput [(ngModel)]="buscaNome" (ngModelChange)="filtrarPessoas()" placeholder="Digite o nome..." />
+  </mat-form-field>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="pessoasFiltradas" class="mat-elevation-z8">
+      <!-- Foto -->
+      <ng-container matColumnDef="foto">
+        <th mat-header-cell *matHeaderCellDef>Foto</th>
+        <td mat-cell *matCellDef="let pessoa">
+          <img *ngIf="pessoa.foto && (pessoa.foto.startsWith('http') || pessoa.foto.startsWith('/uploads/'))" [src]="pessoa.foto" alt="Foto" class="foto-avatar" />
+          <span *ngIf="!pessoa.foto || pessoa.foto === '-' || (!pessoa.foto.startsWith('http') && !pessoa.foto.startsWith('/uploads/'))" class="foto-avatar">
+            {{ pessoa.sexo === 'Masculino' ? '👦' : (pessoa.sexo === 'Feminino' ? '👧' : '👶') }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Nº Pulseira -->
+      <ng-container matColumnDef="pulseira_numero">
+        <th mat-header-cell *matHeaderCellDef>Nº Pulseira</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.pulseira_numero }}</td>
+      </ng-container>
+
+      <!-- Nome -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.name }}</td>
+      </ng-container>
+
+      <!-- Data de Nascimento -->
+      <ng-container matColumnDef="birth_date">
+        <th mat-header-cell *matHeaderCellDef>Data de Nascimento</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.birth_date | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <!-- Idade -->
+      <ng-container matColumnDef="idade">
+        <th mat-header-cell *matHeaderCellDef>Idade</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.idade }} anos</td>
+      </ng-container>
+
+      <!-- Banheiro Sozinho -->
+      <ng-container matColumnDef="banheiro_sozinho">
+        <th mat-header-cell *matHeaderCellDef>Banheiro Sozinho</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.banheiro_sozinho ? 'Sim' : 'Não' }}</td>
+      </ng-container>
+
+      <!-- Alguma Alergia -->
+      <ng-container matColumnDef="alguma_alergia">
+        <th mat-header-cell *matHeaderCellDef>Alguma Alergia</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.alguma_alergia ? 'Sim' : 'Não' }}</td>
+      </ng-container>
+
+      <!-- Alergia -->
+      <ng-container matColumnDef="alergia">
+        <th mat-header-cell *matHeaderCellDef>Alergia</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.alergia || '-' }}</td>
+      </ng-container>
+
+      <!-- Responsável -->
+      <ng-container matColumnDef="responsavel">
+        <th mat-header-cell *matHeaderCellDef>Responsável</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.responsavel }}</td>
+      </ng-container>
+
+      <!-- Grau de Parentesco -->
+      <ng-container matColumnDef="grau_parentesco">
+        <th mat-header-cell *matHeaderCellDef>Grau de Parentesco</th>
+        <td mat-cell *matCellDef="let pessoa">{{ pessoa.grau_parentesco }}</td>
+      </ng-container>
+
+      <!-- Edição -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Editar</th>
+        <td mat-cell *matCellDef="let pessoa">
+          <button mat-icon-button color="primary" (click)="editarPessoa(pessoa)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Excluir -->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Excluir</th>
+        <td mat-cell *matCellDef="let pessoa">
+          <button mat-icon-button color="warn" (click)="deletePerson(pessoa.id)" matTooltip="Excluir">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['foto', 'pulseira_numero', 'name', 'birth_date', 'idade', 'banheiro_sozinho', 'alguma_alergia', 'alergia', 'responsavel', 'grau_parentesco', 'edit', 'delete']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['foto', 'pulseira_numero', 'name', 'birth_date', 'idade', 'banheiro_sozinho', 'alguma_alergia', 'alergia', 'responsavel', 'grau_parentesco', 'edit', 'delete'];"></tr>
+    </table>
+  </div>
+</div> 

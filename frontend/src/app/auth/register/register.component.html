@@ -1,0 +1,21 @@
+<div class="register-container">
+  <h2>Cadastrar Usuário</h2>
+  <form (ngSubmit)="register()">
+    <mat-form-field appearance="outline" class="register-field">
+      <mat-label>Usuário</mat-label>
+      <input matInput [(ngModel)]="username" name="username" required />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="register-field">
+      <mat-label>Senha</mat-label>
+      <input matInput [(ngModel)]="password" name="password" type="password" required />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="register-field">
+      <mat-label>Confirmar Senha</mat-label>
+      <input matInput [(ngModel)]="confirmPassword" name="confirmPassword" type="password" required />
+    </mat-form-field>
+    <div *ngIf="error" class="register-error">{{ error }}</div>
+    <div *ngIf="success" class="register-success">{{ success }}</div>
+    <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+    <button mat-button color="accent" routerLink="/login" type="button">Voltar</button>
+  </form>
+</div> 
